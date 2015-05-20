@@ -7,7 +7,7 @@ set -e
 # Prerequisites:
 # bzr
 # juju
-# wget (optional)
+# curl (optional)
 
 # To run the script:
 #
@@ -21,8 +21,7 @@ set -e
 # $ ci.sh -h 
 # This will display help on all options for running a CI job. Any flag passed
 # to ci.sh will be forwarded to the CI job. Note that flag arguments must be
-# set with "=", not " ". When using --upgrade you need to also specify --new-
-# juju-bin=<path/to/newer/juju/bin>.
+# set with "=", not " ".
 #
 # Ignore the positional arguments in the help documentation. They have been
 # set with the following defaults: 
@@ -38,12 +37,15 @@ set -e
 # Set this if you wish to use a version of Juju different to the one currently
 # set in PATH.
 #
-# For the adventurous, you can also execute the script directly from the web:
-# wget -qO- https://raw.githubusercontent.com/waigani/juju-scripts/master/ci.sh |\
-# sh -s --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
+# --provider=<provider-name>
+# Name of provider to run tests on, e.g. amazon, azure etc
+#
+# For the adventurous, you can execute the script directly from the web:
+# bash <( curl https://raw.githubusercontent.com/waigani/juju-scripts/master/ci.sh )\
+# --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
 #
 # or, a little shorter:
-# wget -qO- http://goo.gl/A0WnhZ | sh -s --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
+# bash <( curl http://goo.gl/A0WnhZ ) --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
 #
 # Warning:
 #
@@ -57,13 +59,16 @@ JUJU_REPOSITORY=$(pwd)/repository/
 # defaults
 provider=local
 logs=logs
+current_juju=$(which juju)
+current_bin="${current_juju%%/juju}"
 
 # flags
 for i in "$@"
 do
 case $i in
   --current-juju-bin=*)
-  PATH=${i#*=}:$PATH
+  current_bin=${i#*=}
+  PATH=$current_bin:$PATH
   shift
   ;;
   --provider=*)
@@ -78,11 +83,21 @@ case $i in
   job_name="${i#*=}"
   shift
   ;;
+  --new-juju-bin=*)
+  new_juju_bin="${i#*=}"
+  shift
+  ;;
   -*)
   flags="$flags ${i/=/ }"
   ;;
 esac
 done
+
+if [ -z "$new_juju_bin" ]
+  then
+  # The script fails if no new-juju-bin is specified - even when we are not upgrading.
+  new_juju_bin=$current_bin
+fi
 
 if [ -z "$job_name" ]
   then
@@ -101,4 +116,4 @@ fi
 
 mkdir -p $logs
 
-python juju-ci-tools/deploy_job.py $provider $logs $job_name $flags
+python juju-ci-tools/deploy_job.py $provider $logs $job_name $flags --new-juju-bin $new_juju_bin

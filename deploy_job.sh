@@ -44,9 +44,6 @@ set -e
 # bash <( curl https://raw.githubusercontent.com/waigani/juju-scripts/master/deploy_job.sh )\
 # --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
 #
-# or, a little shorter:
-# bash <( curl http://goo.gl/A0WnhZ ) --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
-#
 # Warning:
 #
 # This script checks out the tip of the CI repositories, which are under

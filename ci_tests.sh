@@ -10,11 +10,8 @@ set -e
 # curl (optional)
 #
 # For the adventurous, you can execute the script directly from the web:
-# bash <( curl https://raw.githubusercontent.com/waigani/juju-scripts/master/ci.sh )\
+# bash <( curl https://raw.githubusercontent.com/waigani/juju-scripts/master/ci_tests.sh )\
 # --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
-#
-# or, a little shorter:
-# bash <( curl http://goo.gl/A0WnhZ ) --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
 #
 
 echo "Select a CI test from the list below and run:

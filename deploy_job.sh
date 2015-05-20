@@ -1,26 +1,26 @@
 #!/bin/bash
 set -e
 
-# This script runs CI scripts locally on an Ubuntu OS. It should be run in a
-# working directory.
+# This script runs the deploy_job CI script locally on an Ubuntu OS. It should be run in a
+# working directory. This script adds functionality and fixes some surprising behaviour.
 #
 # Prerequisites:
 # bzr
 # juju
 # curl (optional)
-
+#
 # To run the script:
 #
-# $ ci.sh  
+# $ deploy_job.sh  
 # This will use the Juju in your PATH to bootstrap on the local provider,
 # deploy two services and add a relation between them. The environment will
 # then be destroyed.
 #
 # Options:
 #
-# $ ci.sh -h 
+# $ deploy_job.sh -h 
 # This will display help on all options for running a CI job. Any flag passed
-# to ci.sh will be forwarded to the CI job. Note that flag arguments must be
+# to deploy_job.sh will be forwarded to the CI job. Note that flag arguments must be
 # set with "=", not " ".
 #
 # Ignore the positional arguments in the help documentation. They have been
@@ -41,7 +41,7 @@ set -e
 # Name of provider to run tests on, e.g. amazon, azure etc
 #
 # For the adventurous, you can execute the script directly from the web:
-# bash <( curl https://raw.githubusercontent.com/waigani/juju-scripts/master/ci.sh )\
+# bash <( curl https://raw.githubusercontent.com/waigani/juju-scripts/master/deploy_job.sh )\
 # --provider=amazon --current-juju-bin=~/exotic/version/juju/bin
 #
 # or, a little shorter:

@@ -20,9 +20,6 @@ To use test charms, you'll need to run the following before running the test:
 $ export JUJU_REPOSITORY=$(pwd)/repository/
 "
 
-# patch charm repo path
-JUJU_REPOSITORY=$(pwd)/repository/
-
 # get the CI tools
 if [ ! -d juju-ci-tools ]; then
      bzr checkout lp:juju-ci-tools
